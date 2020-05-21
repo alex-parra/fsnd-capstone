@@ -10,5 +10,7 @@ Udacity Fullstack Nanodegree Capstone
 4. Install Flask: `python -m pip install flask`
 5. Install Flask-SQLAlchemy: `python -m pip install flask-sqlalchemy`
 6. Install Flask-CORS: `python -m pip install flask-cors`
-7. Requirements.txt: `python -m pip freeze > requirements.txt`
-8. Run dev mode: `sh ./boot.sh dev`
+7. Install Pythonenv: `python -m pip install python-dotenv`
+8. Requirements.txt: `python -m pip freeze > requirements.txt`
+9. Add .flaskenv with FLASK_APP, FLASK_RUN_HOST, FLASK_RUN_PORT
+10. Run dev mode: `sh ./boot.sh dev`
