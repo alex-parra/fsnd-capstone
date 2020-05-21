@@ -14,3 +14,11 @@ Udacity Fullstack Nanodegree Capstone
 8. Requirements.txt: `python -m pip freeze > requirements.txt`
 9. Add .flaskenv with FLASK_APP, FLASK_RUN_HOST, FLASK_RUN_PORT
 10. Run dev mode: `sh ./boot.sh dev`
+
+## Setup Heroku
+
+1. Install Heroku CLI: `brew install heroku/brew/heroku`
+2. Login to Heroku: `heroku login`
+3. Create app at Heroku: `heroku create my-app-name`
+4. Push to Heroku: `git push heroku master`
+5.
