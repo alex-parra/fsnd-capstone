@@ -19,4 +19,5 @@ class CapstoneTestCase(unittest.TestCase):
         """Test get_index """
         res = self.client().get("/")
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(res.json["msg"], "Hello")
+        self.assertEqual(res.json["status"], "Healthy")
+        self.assertIsInstance(res.json["movies"], int)
