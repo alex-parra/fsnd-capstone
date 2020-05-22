@@ -1,0 +1,19 @@
+version: '3.7'
+
+networks:
+  default:
+    driver: bridge
+
+services:
+  pg:
+    image: postgres:10-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: capstone
+    working_dir: /home
+    volumes:
+      - ./.db:/var/lib/postgresql/data
+      - .:/home
