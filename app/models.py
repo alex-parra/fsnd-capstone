@@ -4,15 +4,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import json
 
-DB_NAME = "capstone"
-DB_HOST = "localhost:5432"
-DB_USER = "postgres:123456"
-DB_PATH = f"postgres://{DB_USER}@{DB_HOST}/{DB_NAME}"
+DB_PATH = f"postgres://postgres:123456@localhost:5432/capstone"
+DB_URL = os.environ.get("DATABASE_URL", DB_PATH)
 
 db = SQLAlchemy()
 
 
-def setup_db(app, database_path=DB_PATH):
+def setup_db(app, database_path=DB_URL):
     """
     setup_db(app)
         binds a flask application and a SQLAlchemy service

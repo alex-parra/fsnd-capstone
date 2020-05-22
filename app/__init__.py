@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from .models import setup_db
+from .models import setup_db, DB_URL
 
 
 def create_app(test_config=None):
@@ -12,7 +12,7 @@ def create_app(test_config=None):
 
     @app.route("/", methods=["GET"])
     def index():
-        return jsonify({"msg": "Hello"})
+        return jsonify({"msg": "Hello", "db": DB_URL})
 
     return app
 
