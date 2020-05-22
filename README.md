@@ -19,7 +19,8 @@ Preview at https://alexparra-fsnd-capstone.herokuapp.com/
 13. Start DB: `docker-compose up` or `sh boot.sh db-up`
 14. Init Migrations: `flask db init`
 15. Create Migrations: `flask db migrate`
-16. Upgrate DB: `flask db upgrade`
+16. Upgrade DB: `flask db upgrade`
+    Downgrade DB: `flask db downgrade`
 17. Run dev mode: `sh ./boot.sh dev`
 
 ## Setup Heroku
@@ -30,3 +31,6 @@ Preview at https://alexparra-fsnd-capstone.herokuapp.com/
 4. Set Procfile: `echo "web: gunicorn app:APP" > Procfile`
 5. Commit changes and push to origin
 6. Push to Heroku: `git push heroku master`
+7. Add Postgres DB: `heroku addons:create heroku-postgresql:hobby-dev`
+8. At Heroku, DB connection url is taken from env var `DATABASE_URL`
+9. Upgrade DB: `heroku run flask db upgrade`
