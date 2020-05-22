@@ -2,29 +2,17 @@ import os
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from .models import setup_db, Movie
+from .models import setup_db
+from .errors import setup_errors
+from .routes import setup_routes
 
 
 def create_app(test_config=None):
     app = Flask(__name__)
     CORS(app)
     setup_db(app)
-
-    @app.route("/", methods=["GET"])
-    def index():
-        movies = Movie.query.count()
-        return jsonify({"status": "Healthy", "movies": movies})
-
-    @app.route("/movies", methods=["POST"])
-    def add_movie():
-        movie = Movie("Lord of the Rings", "2005-05-25")
-        movie.insert()
-        return jsonify({"movie": movie.format()})
-
-    @app.errorhandler(404)
-    def error404(error):
-        return jsonify({"error": "Not Found"}), 404
-
+    setup_errors(app)
+    setup_routes(app)
     return app
 
 
