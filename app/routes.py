@@ -1,5 +1,8 @@
-from flask import request, abort, jsonify
+import os
+from flask import request, abort, jsonify, request, render_template
+from .config import BASE_URL
 from .models import Movie, Actor
+from .auth import requires_auth, login_url, get_permissions
 
 
 def setup_routes(app):
@@ -7,23 +10,36 @@ def setup_routes(app):
 
     @app.route("/", methods=["GET"])
     def index():
+        data = {"app_url": BASE_URL, "login_url": login_url(), "api_url": BASE_URL}
+        return render_template("index.html", **data)
+
+    @app.route("/health", methods=["GET"])
+    def healthcheck():
         data = {
             "status": "Healthy",
             "movies": Movie.query.count(),
             "actors": Actor.query.count(),
+            "auth": {"domain": os.environ.get("AUTH_DOMAIN")},
         }
         return jsonify(data)
+
+    @app.route("/user", methods=["GET"])
+    @requires_auth()
+    def get_user(jwt):
+        return jsonify({"permissions": get_permissions()})
 
     # ------------------------------------------------------------
     # Movies
     @app.route("/movies", methods=["GET"])
-    def get_movies():
+    @requires_auth("movies:list")
+    def get_movies(jwt):
         """GET /movies - List all movies"""
         movies = Movie.query.all()
         return jsonify({"movies": [m.data() for m in movies]})
 
     @app.route("/movies", methods=["POST"])
-    def add_movie():
+    @requires_auth("movies:create")
+    def add_movie(jwt):
         """POST /movies - Create new movie"""
         data = request.get_json(force=True)
         exists = Movie.query.filter(Movie.title == data["title"]).count()
@@ -35,7 +51,8 @@ def setup_routes(app):
         return jsonify({"movie": movie.data()})
 
     @app.route("/movies/<int:id>", methods=["PATCH"])
-    def update_movie(id):
+    @requires_auth("movies:update")
+    def update_movie(jwt, id):
         """PATCH /movies/:id - Update a movie"""
         movie = Movie.query.get(id)
         if movie is None:
@@ -48,7 +65,8 @@ def setup_routes(app):
         return jsonify({"movie": movie.data()})
 
     @app.route("/movies/<int:id>", methods=["DELETE"])
-    def delete_movie(id):
+    @requires_auth("movies:delete")
+    def delete_movie(jwt, id):
         """DELETE /movies/:id - Delete a movie"""
         movie = Movie.query.get(id)
         if movie is None:
@@ -60,13 +78,15 @@ def setup_routes(app):
     # ------------------------------------------------------------
     # Actors
     @app.route("/actors", methods=["GET"])
-    def get_actors():
+    @requires_auth("actors:list")
+    def get_actors(jwt):
         """GET /actors - List all actors"""
         actors = Actor.query.all()
         return jsonify({"actors": [a.data() for a in actors]})
 
     @app.route("/actors", methods=["POST"])
-    def add_actor():
+    @requires_auth("actors:create")
+    def add_actor(jwt):
         """POST /actors - Create a new actor"""
         data = request.get_json(force=True)
         exists = Actor.query.filter(Actor.name == data["name"]).count()
@@ -78,7 +98,8 @@ def setup_routes(app):
         return jsonify({"actor": actor.data()})
 
     @app.route("/actors/<int:id>", methods=["PATCH"])
-    def update_actor(id):
+    @requires_auth("actors:update")
+    def update_actor(jwt, id):
         """PATCH /actors/:id - Update an actor"""
         actor = Actor.query.get(id)
         if actor is None:
@@ -92,7 +113,8 @@ def setup_routes(app):
         return jsonify({"actor": actor.data()})
 
     @app.route("/actors/<int:id>", methods=["DELETE"])
-    def delete_actor(id):
+    @requires_auth("actors:delete")
+    def delete_actor(jwt, id):
         """DELETE /actors/:id - Delete an actor"""
         actor = Actor.query.get(id)
         if actor is None:

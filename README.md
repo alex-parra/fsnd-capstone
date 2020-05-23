@@ -14,14 +14,15 @@ Preview at https://alexparra-fsnd-capstone.herokuapp.com/
 8. Install Flask-Migrate: `python -m pip install Flask-Migrate`
 9. Install Flask-CORS: `python -m pip install flask-cors`
 10. Install Pythonenv: `python -m pip install python-dotenv`
-11. Requirements.txt: `python -m pip freeze > requirements.txt`
-12. Add .flaskenv with FLASK_APP, FLASK_RUN_HOST, FLASK_RUN_PORT
-13. Start DB: `docker-compose up` or `sh boot.sh db-up`
-14. Init Migrations: `flask db init`
-15. Create Migrations: `flask db migrate`
-16. Upgrade DB: `flask db upgrade`
+11. Install Python Jose: `python -m pip install python-jose-cryptodome`
+12. Requirements.txt: `python -m pip freeze > requirements.txt`
+13. Add .flaskenv with `FLASK_APP`, `FLASK_RUN_HOST`, `FLASK_RUN_PORT`
+14. Start DB: `docker-compose up` or `sh boot.sh db-up`
+15. Init Migrations: `flask db init`
+16. Create Migrations: `flask db migrate`
+17. Upgrade DB: `flask db upgrade`
     Downgrade DB: `flask db downgrade`
-17. Run dev mode: `sh ./boot.sh dev`
+18. Run dev mode: `sh ./boot.sh dev`
 
 ## Setup Heroku
 
