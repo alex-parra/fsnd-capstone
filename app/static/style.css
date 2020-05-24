@@ -1,0 +1,221 @@
+html {
+  background-color: #2d3748;
+  color: #f7fafc;
+}
+
+h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+a[href] {
+  color: #2b6cb0;
+}
+
+a[href]:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+input {
+  display: block;
+  width: 100%;
+  color: #1a202c;
+  padding: 0.4em 0.6em;
+  font-size: 1rem;
+  border-radius: 3px;
+  border: none;
+}
+
+label.formControl {
+  display: block;
+}
+
+label.formControl strong {
+  padding: 0 0.5em;
+}
+
+label.formControl + * {
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.4em 1em;
+  background-color: #4299e1;
+  color: #f7fafc;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.btn.small {
+  padding: 0.2em 0.8em;
+  font-size: 12px;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: #3182ce;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.btn.icon {
+  padding: 0em 0.3em 0.15em;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.btn.icon:not(:hover) {
+  background-color: transparent;
+  box-shadow: none;
+  opacity: 0.5;
+}
+
+.btn.danger {
+  background-color: #c53030;
+}
+
+.btn.danger:hover {
+  background-color: #9b2c2c;
+}
+
+.appHeader {
+  display: flex;
+  align-items: center;
+  padding: 30px;
+}
+
+.appHeader h1 {
+  font-size: 30px;
+  font-weight: 100;
+  margin-right: auto;
+}
+
+.appHeader h1 small {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #4299e1;
+}
+
+.appHeader .userPerms {
+  text-align: right;
+  font-size: 14px;
+  padding: 0 10px;
+  opacity: 0.8;
+  max-width: 500px;
+}
+
+.mainLoggedOut {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  font-size: 30px;
+  font-weight: bold;
+  opacity: 0.4;
+}
+
+.mainLists {
+  display: flex;
+  align-items: flex-start;
+  padding: 0 10px;
+}
+
+.mainLists > div {
+  flex: 1;
+  padding: 20px;
+}
+
+.listWrap h2 {
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.listWrap li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: background-color 100ms ease;
+}
+
+.listWrap li:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.listWrap li + li {
+  margin-top: 3px;
+}
+
+.listWrap li h3 {
+  font-weight: bold;
+  margin-right: auto;
+}
+
+.listWrap li .btn:last-child {
+  margin-left: 1rem;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes modal {
+  from {
+    transform: translate(0, 25px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+.modal .content {
+  width: 90%;
+  max-width: 600px;
+  min-height: 40%;
+  max-height: 80%;
+  background-color: #2d3748;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  border: 5px solid rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  animation: modal 100ms ease-out forwards;
+}
+
+.modal h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.detailView h2 {
+  display: flex;
+  align-items: center;
+}
+
+.detailView h2 span {
+  margin-right: auto;
+}
+
+.detailView h2 .btn {
+  margin-left: 10px;
+}

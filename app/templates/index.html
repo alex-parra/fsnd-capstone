@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alex Parra Capstone for Fullstack Udacity Nanodegree</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+  </head>
+  <body>
+    <script type="module">
+      import { render, html, App } from "{{url_for('static', filename='components.js')}}";
+
+      const data = {
+        appUrl: '{{appUrl|safe}}',
+        apiUrl: '{{apiUrl|safe}}',
+        loginUrl: '{{loginUrl|safe}}',
+        logoutUrl: '{{logoutUrl|safe}}',
+        token: sessionStorage.getItem('auth'),
+        permissions: [],
+      };
+
+      render(html`<${App} ...${data} />`, document.body);
+    </script>
+  </body>
+</html>
