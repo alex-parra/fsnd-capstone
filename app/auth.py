@@ -19,6 +19,14 @@ def login_url():
     return f"{domain}/authorize?{audience}&{res_type}&{client_id}&{redirect}"
 
 
+def logout_url():
+    domain = f"https://{AUTH_DOMAIN}"
+    audience = f"audience={AUTH_AUDIENCE}"
+    client_id = f"client_id={AUTH_CLIENT_ID}"
+    redirect = f"returnTo={BASE_URL}"
+    return f"{domain}/v2/logout?{audience}&{client_id}&{redirect}"
+
+
 class AuthError(Exception):
     """
     Standardized way to communicate auth failure modes

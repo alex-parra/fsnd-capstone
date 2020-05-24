@@ -2,7 +2,7 @@ import os
 from flask import request, abort, jsonify, request, render_template
 from .config import BASE_URL
 from .models import Movie, Actor
-from .auth import requires_auth, login_url, get_permissions
+from .auth import requires_auth, login_url, logout_url, get_permissions
 
 
 def setup_routes(app):
@@ -10,7 +10,12 @@ def setup_routes(app):
 
     @app.route("/", methods=["GET"])
     def index():
-        data = {"app_url": BASE_URL, "login_url": login_url(), "api_url": BASE_URL}
+        data = {
+            "appUrl": BASE_URL,
+            "apiUrl": BASE_URL,
+            "loginUrl": login_url(),
+            "logoutUrl": logout_url(),
+        }
         return render_template("index.html", **data)
 
     @app.route("/health", methods=["GET"])
@@ -19,7 +24,6 @@ def setup_routes(app):
             "status": "Healthy",
             "movies": Movie.query.count(),
             "actors": Actor.query.count(),
-            "auth": {"domain": os.environ.get("AUTH_DOMAIN")},
         }
         return jsonify(data)
 
@@ -34,7 +38,7 @@ def setup_routes(app):
     @requires_auth("movies:list")
     def get_movies(jwt):
         """GET /movies - List all movies"""
-        movies = Movie.query.all()
+        movies = Movie.query.order_by(Movie.title).all()
         return jsonify({"movies": [m.data() for m in movies]})
 
     @app.route("/movies", methods=["POST"])
@@ -81,7 +85,7 @@ def setup_routes(app):
     @requires_auth("actors:list")
     def get_actors(jwt):
         """GET /actors - List all actors"""
-        actors = Actor.query.all()
+        actors = Actor.query.order_by(Actor.name).all()
         return jsonify({"actors": [a.data() for a in actors]})
 
     @app.route("/actors", methods=["POST"])

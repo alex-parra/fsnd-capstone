@@ -2,7 +2,20 @@
 
 Preview at https://alexparra-fsnd-capstone.herokuapp.com/
 
-# App Steps
+## Users
+
+- Executive Producer: `executive.producer@fsnd-capstone.alex-parra.com`
+  Permissions: actors:list, actors:create, actors:update, actors:delete, movies:list, movies:create, movies:update, movies:delete
+- Casting Director: `casting.director@fsnd-capstone.alex-parra.com`
+  Permissions: actors:list, actors:create, actors:update, actors:delete, movies:list, movies:update
+- Casting Assistant: `casting.assistant@fsnd-capstone.alex-parra.com`
+  Permissions: actors:list, movies:list
+
+```
+FSNDCapstone1q2w3e
+```
+
+## App Development
 
 1. VirtualEnv: `python -m venv venv`
 2. Activate Env: `source ./venv/bin/activate`
