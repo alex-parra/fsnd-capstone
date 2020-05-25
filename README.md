@@ -15,6 +15,96 @@ Preview at https://alexparra-fsnd-capstone.herokuapp.com/
 FSNDCapstone1q2w3e
 ```
 
+## Setup locally for developemt
+
+1. clone this repo and cd into it
+2. activate virtual env: `source ./venv/bin/activate`
+3. Upgrade pip: `python -m pip install pip --upgrade`
+4. Install dependencies: `python -m pip install -r requirements.txt`
+5. Start DB: `docker-compose up` or `sh boot.sh db-up`
+6. Upgrade DB: `flask db upgrade`
+7. Run dev mode: `sh ./boot.sh dev`
+8. Open http://localhost:8000/
+
+## Endpoints
+`GET /`
+
+- Returns app scafold html
+
+`GET /health`
+
+- Get system health check
+
+`GET /user`
+
+- Get user permissions
+
+`GET /movies`
+
+- Get all Movies
+- Requires Auth + `movies:list`
+- Response: `{ movies: MOVIE_DTO[] }`
+
+`POST /movies`
+
+- Create a Movie
+- Requires Auth + `movies:create`
+- Request payload: `See app.schemas.movie.create`
+- Response: `{ movie: MOVIE_DTO }`
+
+`PATCH /movies/:id`
+
+- Update a Movie
+- Requires Auth + `movies:update`
+- Request payload: `See app.schemas.movie.update`
+- Response: `{ movie: MOVIE_DTO }`
+
+`DELETE /movies/:id`
+
+- Delete a Movie
+- Requires Auth + `movies:delete`
+- Response: `{ deleted: MOVIE_DTO }`
+
+`GET /actors`
+
+- Get all Actors
+- Requires Auth + `actors:list`
+- Response: `{ actors: ACTOR_DTO[] }`
+
+`POST /actors`
+
+- Create an Actor
+- Requires Auth + `actors:create`
+- Request payload: `See app.schemas.actor.create`
+- Response: `{ actor: ACTOR_DTO }`
+
+`PATCH /actors/:id`
+
+- Update an Actor
+- Requires Auth + `actors:update`
+- Request payload: `See app.schemas.actor.update`
+- Response: `{ actor: ACTOR_DTO }`
+
+`DELETE /actors/:id`
+
+- Delete an Actor
+- Requires Auth + `actors:delete`
+- Response: `{ deleted: ACTOR_DTO }`
+
+`POST /movies/:id/actors`
+
+- Add an Actor to a movie
+- Requires Auth + `movies:update`
+- Request payload: `{ actor: { id: number } }`
+- Response: `{ movie: MOVIE_DTO }`
+
+`DELETE /movies/:id/actors`
+
+- Remove an Actor from a movie
+- Requires Auth + `movies:update`
+- Request payload: `{ actor: { id: number } }`
+- Response: `{ movie: MOVIE_DTO }`
+
 ## App Development
 
 1. VirtualEnv: `python -m venv venv`
