@@ -1,5 +1,6 @@
 from flask import jsonify
 from .auth import AuthError
+import jsonschema
 
 
 def setup_errors(app):
@@ -55,3 +56,8 @@ def setup_errors(app):
     def error500(error):
         msg = error.description
         return jsonify({"success": False, "error": 500, "message": msg}), 500
+
+    # Handle Validation Error
+    @app.errorhandler(jsonschema.ValidationError)
+    def onValidationError(e):
+        return jsonify({"success": False, "error": 400, "message": "There was a validation error: " + str(e)}), 400

@@ -1,0 +1,36 @@
+{
+  "create": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "minLength": 10
+      },
+      "release_date": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "title",
+      "release_date"
+    ]
+  },
+  "update": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "minLength": 10
+      },
+      "release_date": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "title",
+      "release_date"
+    ]
+  }
+}

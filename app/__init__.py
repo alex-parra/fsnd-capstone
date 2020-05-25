@@ -4,10 +4,12 @@ from flask_cors import CORS
 from .models import setup_db
 from .errors import setup_errors
 from .routes import setup_routes
+from flask_jsonschema_validator import JSONSchemaValidator
 
 
 def create_app(test_config=None):
     app = Flask(__name__)
+    JSONSchemaValidator(app=app, root="app/schemas")
     CORS(app)
     setup_db(app)
     setup_errors(app)
