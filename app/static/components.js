@@ -36,11 +36,11 @@ const getHashToken = url => {
 };
 
 const Btn = props => {
-  return html`<button className="btn ${props.className || ''}" onClick="${props.onClick}">${props.text}</button>`;
+  return html`<button class="btn ${props.class || ''}" onClick="${props.onClick}">${props.text}</button>`;
 };
 
 const Logout = ({ store }) => html`
-  <div className="userPerms"><b>You can:</b> ${store.permissions.join(', ')}</div>
+  <div class="userPerms"><b>You can:</b> ${store.permissions.join(', ')}</div>
   <${Btn} onClick="${store.logout}" text="Logout" />
 `;
 
@@ -51,7 +51,7 @@ const Login = ({ store }) => {
 };
 
 const AppHeader = ({ store }) => {
-  return html`<header className="appHeader">
+  return html`<header class="appHeader">
     <h1>
       Udacity Fullstack Capstone Project
       <small>Created by Alex Parra</small>
@@ -63,10 +63,10 @@ const AppHeader = ({ store }) => {
 const MoviesList = ({ store }) => {
   const { movies = [] } = store;
   return html`
-    <div className="movies listWrap">
+    <div class="movies listWrap">
       <h2>
         <span>Movies </span>
-        ${store.can('movies:create') && html`<${Btn} className="icon" text="+" onClick="${() => store.modalOn('addMovie')}" />`}
+        ${store.can('movies:create') && html`<${Btn} class="icon" text="+" onClick="${() => store.modalOn('addMovie')}" />`}
       </h2>
       <ol>
         ${movies.map(
@@ -74,7 +74,7 @@ const MoviesList = ({ store }) => {
             <h3>${movie.title}</h3>
             <small title="Movie Release Date">${movie.release_date}</small>
             ${store.can('movies:delete') &&
-            html`<${Btn} text="×" className="icon danger" onClick="${ev => (ev.stopPropagation(), store.deleteMovie(movie))}" />`}
+            html`<${Btn} text="×" class="icon danger" onClick="${ev => (ev.stopPropagation(), store.deleteMovie(movie))}" />`}
           </li>`
         )}
       </ol>
@@ -84,10 +84,10 @@ const MoviesList = ({ store }) => {
 
 const MovieDetail = ({ movie, store }) => {
   return html`
-    <div className="detailView">
+    <div class="detailView">
       <h2>
         <span>${movie.title}</span>
-        ${store.can('movies:update') && html`<${Btn} className="small" text="Edit" onClick="${() => store.modalOn('editMovie', movie)}" />`}
+        ${store.can('movies:update') && html`<${Btn} class="small" text="Edit" onClick="${() => store.modalOn('editMovie', movie)}" />`}
       </h2>
       <p>Released: ${movie.release_date}</p>
     </div>
@@ -105,11 +105,11 @@ class MovieForm extends Component {
     const createOrEdit = props.movie ? 'Edit' : 'Create';
     return html`
       <h2>${createOrEdit} Movie</h2>
-      <label className="formControl">
+      <label class="formControl">
         <strong>Title:</strong>
         <input type="text" value="${state.title}" onInput="${ev => this.setState({ title: ev.target.value })}" placeholder="Type movie name" />
       </label>
-      <label className="formControl">
+      <label class="formControl">
         <strong>Release Date:</strong>
         <input
           type="date"
@@ -118,7 +118,7 @@ class MovieForm extends Component {
           placeholder="Type movie name"
         />
       </label>
-      <div className="formActions">
+      <div class="formActions">
         <${Btn} text="Save" onClick="${() => props.submit(state)}" />
       </div>
     `;
@@ -128,10 +128,10 @@ class MovieForm extends Component {
 const ActorsList = ({ store }) => {
   const { actors = [] } = store;
   return html`
-    <div className="actors listWrap">
+    <div class="actors listWrap">
       <h2>
         <span>Actors</span>
-        ${store.can('actors:create') && html`<${Btn} className="icon" text="+" onClick="${() => store.modalOn('addActor')}" />`}
+        ${store.can('actors:create') && html`<${Btn} class="icon" text="+" onClick="${() => store.modalOn('addActor')}" />`}
       </h2>
       <ol>
         ${actors.map(
@@ -139,7 +139,7 @@ const ActorsList = ({ store }) => {
             <h3>${actor.name}</h3>
             <small title="Actor Age">${actor.age}</small>
             ${store.can('actors:delete') &&
-            html`<${Btn} text="×" className="icon danger" onClick="${ev => (ev.stopPropagation(), store.deleteActor(actor))}" />`}
+            html`<${Btn} text="×" class="icon danger" onClick="${ev => (ev.stopPropagation(), store.deleteActor(actor))}" />`}
           </li>`
         )}
       </ol>
@@ -149,10 +149,10 @@ const ActorsList = ({ store }) => {
 
 const ActorDetail = ({ actor, store }) => {
   return html`
-    <div className="detailView">
+    <div class="detailView">
       <h2>
         <span>${actor.name}</span>
-        ${store.can('actors:update') && html`<${Btn} className="small" text="Edit" onClick="${() => store.modalOn('editActor', actor)}" />`}
+        ${store.can('actors:update') && html`<${Btn} class="small" text="Edit" onClick="${() => store.modalOn('editActor', actor)}" />`}
       </h2>
       <p>Age: ${actor.age}</p>
       <p>Gender: ${actor.gender}</p>
@@ -171,11 +171,11 @@ class ActorForm extends Component {
     const createOrEdit = props.actor ? 'Edit' : 'Create';
     return html`
       <h2>${createOrEdit} Actor</h2>
-      <label className="formControl">
+      <label class="formControl">
         <strong>Name:</strong>
         <input type="text" value="${state.name}" onInput="${ev => this.setState({ name: ev.target.value })}" placeholder="Type actor name" />
       </label>
-      <label className="formControl">
+      <label class="formControl">
         <strong>Age:</strong>
         <input
           type="number"
@@ -186,7 +186,7 @@ class ActorForm extends Component {
           onInput="${ev => this.setState({ age: Number(ev.target.value) })}"
         />
       </label>
-      <label className="formControl">
+      <label class="formControl">
         <strong>Gender:</strong>
         <select value="${state.gender}" onChange="${ev => this.setState({ gender: ev.target.value })}">
           <option value="" disabled selected>- Select actor gender -</option>
@@ -195,7 +195,7 @@ class ActorForm extends Component {
           <option value="X">Non-binary</option>
         </select>
       </label>
-      <div className="formActions">
+      <div class="formActions">
         <${Btn} text="Save" onClick="${() => props.submit(state)}" />
       </div>
     `;
@@ -216,8 +216,8 @@ class Modal extends Component {
     };
 
     return html`
-      <div className="modal" onClick="${store.modalOff}">
-        <div className="content" onClick="${ev => ev.stopPropagation()}">
+      <div class="modal" onClick="${store.modalOff}">
+        <div class="content" onClick="${ev => ev.stopPropagation()}">
           ${modals[action]()}
         </div>
       </div>
@@ -298,9 +298,9 @@ class App extends Component {
     return html`
       <${AppHeader} store="${store}" />
       ${!store.token
-        ? html`<main className="mainLoggedOut">Please login</main>`
+        ? html`<main class="mainLoggedOut">Please login</main>`
         : html`
-            <main className="mainLists">
+            <main class="mainLists">
               <${MoviesList} store="${store}" />
               <${ActorsList} store="${store}" />
             </main>
