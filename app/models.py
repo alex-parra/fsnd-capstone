@@ -1,5 +1,6 @@
 import os
-from sqlalchemy import Column, String, Integer, create_engine
+from sqlalchemy import Table, Column, String, Integer, create_engine, ForeignKey
+from sqlalchemy.orm import relationship, backref
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import json
@@ -19,12 +20,21 @@ def setup_db(app, database_path=DB_URL):
     Migrate(app, db)
 
 
+movie_actors = Table('movie_actors', db.Model.metadata,
+                     Column('movie_id', Integer, ForeignKey(
+                         'movies.id', ondelete='CASCADE')),
+                     Column('actor_id', Integer, ForeignKey(
+                         'actors.id', ondelete='CASCADE'))
+                     )
+
+
 class Movie(db.Model):
     """
     Movie Model
         Attributes:
         - title: string
         - release_date: string
+        - actors: Actor[]
         Methods:
         - data
         - insert
@@ -37,6 +47,7 @@ class Movie(db.Model):
     id = Column(Integer, primary_key=True)
     title = Column(String)
     release_date = Column(String)
+    actors = relationship('Actor', secondary=movie_actors, backref="movies")
 
     def __init__(self, title, release_date):
         self.title = title
@@ -47,6 +58,7 @@ class Movie(db.Model):
             "id": self.id,
             "title": self.title,
             "release_date": self.release_date,
+            'actors': [actor.data() for actor in self.actors]
         }
 
     def insert(self):
@@ -68,6 +80,7 @@ class Actor(db.Model):
         - name: string
         - age: int
         - gender: M | F | X
+        - movies: Movie[]
         Methods:
         - data
         - insert
@@ -93,6 +106,7 @@ class Actor(db.Model):
             "name": self.name,
             "age": self.age,
             "gender": self.gender,
+            'movies': [{'id': movie.id, 'title': movie.title} for movie in self.movies]
         }
 
     def insert(self):

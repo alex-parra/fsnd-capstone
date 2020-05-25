@@ -26,16 +26,17 @@ FSNDCapstone1q2w3e
 7. Install psycopg2: `python -m pip install psycopg2-binary`
 8. Install Flask-Migrate: `python -m pip install Flask-Migrate`
 9. Install Flask-CORS: `python -m pip install flask-cors`
-10. Install Pythonenv: `python -m pip install python-dotenv`
-11. Install Python Jose: `python -m pip install python-jose-cryptodome`
-12. Requirements.txt: `python -m pip freeze > requirements.txt`
-13. Add .flaskenv with `FLASK_APP`, `FLASK_RUN_HOST`, `FLASK_RUN_PORT`
-14. Start DB: `docker-compose up` or `sh boot.sh db-up`
-15. Init Migrations: `flask db init`
-16. Create Migrations: `flask db migrate`
-17. Upgrade DB: `flask db upgrade`
+10. Install Flask-JSONSchema: `python -m pip install flask-jsonschema-validator`
+11. Install Pythonenv: `python -m pip install python-dotenv`
+12. Install Python Jose: `python -m pip install python-jose-cryptodome`
+13. Requirements.txt: `python -m pip freeze > requirements.txt`
+14. Add .flaskenv with `FLASK_APP`, `FLASK_RUN_HOST`, `FLASK_RUN_PORT`
+15. Start DB: `docker-compose up` or `sh boot.sh db-up`
+16. Init Migrations: `flask db init`
+17. Create Migrations: `flask db migrate`
+18. Upgrade DB: `flask db upgrade`
     Downgrade DB: `flask db downgrade`
-18. Run dev mode: `sh ./boot.sh dev`
+19. Run dev mode: `sh ./boot.sh dev`
 
 ## Setup Heroku
 

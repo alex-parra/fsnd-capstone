@@ -16,7 +16,7 @@ const API = {
   },
   post: async (url, data) => API.call(url, 'POST', data),
   patch: async (url, data) => API.call(url, 'PATCH', data),
-  delete: async url => API.call(url, 'DELETE').catch(() => null),
+  delete: async (url, data) => API.call(url, 'DELETE', data).catch(() => null),
   getPermissions: () => API.call('/user').then(({ permissions }) => permissions),
   getMovies: () => API.call('/movies').then(({ movies }) => movies),
   createMovie: data => API.post('/movies', data).then(({ movie }) => movie),
@@ -26,6 +26,8 @@ const API = {
   createActor: data => API.post('/actors', data).then(({ actor }) => actor),
   updateActor: actor => API.patch(`/actors/${actor.id}`, actor).then(({ actor }) => actor),
   deleteActor: actor => API.delete(`/actors/${actor.id}`),
+  addMovieActor: (movie, actor) => API.post(`/movies/${movie.id}/actors`, { actor }),
+  removeMovieActor: (movie, actor) => API.delete(`/movies/${movie.id}/actors`, { actor }),
 };
 
 const getHashToken = url => {
@@ -82,7 +84,10 @@ const MoviesList = ({ store }) => {
   `;
 };
 
-const MovieDetail = ({ movie, store }) => {
+const MovieDetail = ({ id, store }) => {
+  const movie = store.movies.find(m => m.id === id);
+  const delActor = (ev, actor) => (ev.stopPropagation(), store.removeMovieActor(movie, actor));
+
   return html`
     <div class="detailView">
       <h2>
@@ -90,6 +95,20 @@ const MovieDetail = ({ movie, store }) => {
         ${store.can('movies:update') && html`<${Btn} class="small" text="Edit" onClick="${() => store.modalOn('editMovie', movie)}" />`}
       </h2>
       <p>Released: ${movie.release_date}</p>
+
+      <h3 class="titleWithAction">
+        <span>Cast</span>
+        ${store.can('movies:update') && html`<${Btn} class="small" text="+ Actor" onClick="${() => store.modalOn('addMovieActor', movie)}" />`}
+      </h3>
+      <ul class="subList selectList">
+        ${movie.actors.length === 0 && html`<li class="none">No actors assigned.</li>`}
+        ${movie.actors.map(
+          actor => html`<li onClick="${ev => store.modalOn('viewActor', actor)}">
+            <h4>${actor.name}</h4>
+            ${store.can('movies:update') && html`<${Btn} class="icon danger" text="×" onClick="${ev => delActor(ev, actor)}" />`}
+          </li>`
+        )}
+      </ul>
     </div>
   `;
 };
@@ -97,7 +116,8 @@ const MovieDetail = ({ movie, store }) => {
 class MovieForm extends Component {
   constructor(props) {
     super(props);
-    const { movie = { title: '', release_date: '' } } = props;
+    const { id, store } = props;
+    const movie = id ? store.movies.find(m => m.id === id) : { title: '', release_date: '' };
     this.state = { ...movie };
   }
 
@@ -147,15 +167,24 @@ const ActorsList = ({ store }) => {
   `;
 };
 
-const ActorDetail = ({ actor, store }) => {
+const ActorDetail = ({ id, store }) => {
+  const actor = store.actors.find(a => a.id === id);
   return html`
     <div class="detailView">
       <h2>
         <span>${actor.name}</span>
         ${store.can('actors:update') && html`<${Btn} class="small" text="Edit" onClick="${() => store.modalOn('editActor', actor)}" />`}
       </h2>
-      <p>Age: ${actor.age}</p>
-      <p>Gender: ${actor.gender}</p>
+      <p>Age: ${actor.age} | Gender: ${actor.gender}</p>
+      <h3>Movies</h3>
+      <ol class="subList selectList">
+        ${actor.movies.length === 0 && html`<li class="none">No movies assigned</li>`}
+        ${actor.movies.map(
+          movie => html`<li onClick="${ev => store.modalOn('viewMovie', movie)}">
+            ${movie.title}
+          </li>`
+        )}
+      </ol>
     </div>
   `;
 };
@@ -163,7 +192,8 @@ const ActorDetail = ({ actor, store }) => {
 class ActorForm extends Component {
   constructor(props) {
     super(props);
-    const { actor = { name: '', age: '', gender: '' } } = props;
+    const { id, store } = props;
+    const actor = id ? store.actors.find(a => a.id === id) : { name: '', age: '', gender: '' };
     this.state = { ...actor };
   }
 
@@ -202,17 +232,39 @@ class ActorForm extends Component {
   }
 }
 
+const MovieActorForm = ({ movie, store }) => {
+  const movieActorsIds = movie.actors.map(a => a.id);
+  const freeActors = store.actors.filter(a => !movieActorsIds.includes(a.id));
+  const selectActor = actor => store.addMovieActor(movie, actor);
+  return html`
+    <div className="movieActorForm detailView">
+      <h2>
+        <span>Add Actor <small>to ${movie.title}</small></span>
+      </h2>
+      <ol class="subList selectList">
+        ${freeActors.length === 0 && html`<li class="none">No free Actors</li>`}
+        ${freeActors.map(
+          actor => html`<li onClick="${ev => selectActor(actor)}">
+            <h4>${actor.name}</h4>
+          </li>`
+        )}
+      </ol>
+    </div>
+  `;
+};
+
 class Modal extends Component {
   render() {
     const { store } = this.props;
     const { action, data } = store.modal;
     const modals = {
       addMovie: () => html`<${MovieForm} submit="${store.addMovie}" />`,
-      viewMovie: () => html`<${MovieDetail} movie="${data}" store="${store}" />`,
-      editMovie: () => html`<${MovieForm} movie="${data}" submit="${store.saveMovie}" />`,
+      viewMovie: () => html`<${MovieDetail} id="${data.id}" store="${store}" />`,
+      editMovie: () => html`<${MovieForm} id="${data.id}" store="${store}" submit="${store.saveMovie}" />`,
       addActor: () => html`<${ActorForm} submit="${store.addActor}" />`,
-      viewActor: () => html`<${ActorDetail} actor="${data}" store="${store}" />`,
-      editActor: () => html`<${ActorForm} actor="${data}" submit="${store.saveActor}" />`,
+      viewActor: () => html`<${ActorDetail} id="${data.id}" store="${store}" />`,
+      editActor: () => html`<${ActorForm} id="${data.id}" store="${store}" submit="${store.saveActor}" />`,
+      addMovieActor: () => html`<${MovieActorForm} id="${data.id}" store="${store}" submit="${store.addMovieActor}" />`,
     };
 
     return html`
@@ -271,24 +323,36 @@ class App extends Component {
       modalOn: this.modalOn,
       can: perm => permissions.includes(perm),
       addMovie: data => (this.modalOff(), API.createMovie(data).then(this.getMovies)),
-      saveMovie: data =>
-        API.updateMovie(data).then(movie => {
-          this.getMovies().then(this.modalOn('viewMovie', movie));
-        }),
+      saveMovie: data => {
+        return API.updateMovie(data).then(movie => {
+          this.getMovies().then(() => this.modalOn('viewMovie', movie));
+        });
+      },
       deleteMovie: movie => {
         if (confirm(`Are you sure you want to delete\n${movie.title}`)) {
           API.deleteMovie(movie).then(this.getMovies);
         }
       },
       addActor: data => (this.modalOff(), API.createActor(data).then(this.getActors)),
-      saveActor: data =>
-        API.updateActor(data).then(actor => {
-          this.getActors().then(this.modalOn('viewActor', actor));
-        }),
+      saveActor: data => {
+        return API.updateActor(data).then(actor => {
+          this.getActors().then(() => this.modalOn('viewActor', actor));
+        });
+      },
       deleteActor: actor => {
         if (confirm(`Are you sure you want to delete\n${actor.name}`)) {
           API.deleteActor(actor).then(this.getActors);
         }
+      },
+      addMovieActor: (movie, actor) => {
+        return API.addMovieActor(movie, actor).then(({ movie }) => {
+          this.getMovies().then(() => this.modalOn('viewMovie', movie));
+        });
+      },
+      removeMovieActor: (movie, actor) => {
+        return API.removeMovieActor(movie, actor).then(({ movie }) => {
+          this.getMovies().then(() => this.modalOn('viewMovie', movie));
+        });
       },
     };
   };

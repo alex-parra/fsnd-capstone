@@ -44,6 +44,15 @@ label.formControl + * {
   margin-top: 1rem;
 }
 
+.titleWithAction {
+  display: flex;
+  align-items: center;
+}
+
+.titleWithAction > *:first-child {
+  margin-right: auto;
+}
+
 .btn {
   padding: 0.4em 1em;
   background-color: #4299e1;
@@ -83,6 +92,11 @@ label.formControl + * {
 
 .btn.danger:hover {
   background-color: #9b2c2c;
+}
+
+.selectList li:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 .appHeader {
@@ -221,8 +235,46 @@ label.formControl + * {
   margin-right: auto;
 }
 
+.detailView h2 > span small {
+  display: block;
+  font-size: 0.8em;
+  font-weight: normal;
+  opacity: 0.8;
+}
+
 .detailView h2 .btn {
   margin-left: 10px;
+}
+
+.detailView h3 {
+  font-weight: bold;
+  text-transform: uppercase;
+  opacity: 0.9;
+  margin: 2rem 0 0.5em;
+}
+
+.detailView .subList {
+  margin: 0 -5px;
+}
+
+.detailView .subList li {
+  padding: 0.5em 1em;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+}
+
+.detailView .subList li + li {
+  margin-top: 5px;
+}
+
+.detailView .subList li h4 {
+  margin-right: auto;
+}
+
+.detailView .subList li.none {
+  opacity: 0.8;
 }
 
 @media screen and (max-width: 1100px) {

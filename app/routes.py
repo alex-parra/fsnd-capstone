@@ -6,7 +6,7 @@ from .auth import requires_auth, login_url, logout_url, get_permissions
 
 
 def setup_routes(app):
-    """Applies routes to app"""
+    '''Applies routes to app'''
 
     @app.route("/", methods=["GET"])
     def index():
@@ -37,14 +37,14 @@ def setup_routes(app):
     @app.route("/movies", methods=["GET"])
     @requires_auth("movies:list")
     def get_movies(jwt):
-        """GET /movies - List all movies"""
+        '''GET /movies - List all movies'''
         movies = Movie.query.order_by(Movie.title).all()
         return jsonify({"movies": [m.data() for m in movies]})
 
     @app.route("/movies", methods=["POST"])
     @requires_auth("movies:create")
     def add_movie(jwt):
-        """POST /movies - Create new movie"""
+        '''POST /movies - Create new movie'''
         data = request.get_json(force=True)
         exists = Movie.query.filter(Movie.title == data["title"]).count()
         if exists:
@@ -57,7 +57,7 @@ def setup_routes(app):
     @app.route("/movies/<int:id>", methods=["PATCH"])
     @requires_auth("movies:update")
     def update_movie(jwt, id):
-        """PATCH /movies/:id - Update a movie"""
+        '''PATCH /movies/:id - Update a movie'''
         movie = Movie.query.get(id)
         if movie is None:
             abort(404)
@@ -68,10 +68,10 @@ def setup_routes(app):
         movie.update()
         return jsonify({"movie": movie.data()})
 
-    @app.route("/movies/<int:id>", methods=["DELETE"])
+    @app.route('/movies/<int:id>', methods=["DELETE"])
     @requires_auth("movies:delete")
     def delete_movie(jwt, id):
-        """DELETE /movies/:id - Delete a movie"""
+        '''DELETE /movies/:id - Delete a movie'''
         movie = Movie.query.get(id)
         if movie is None:
             abort(404)
@@ -80,18 +80,57 @@ def setup_routes(app):
         return jsonify({"deleted": movie.data()}), 204
 
     # ------------------------------------------------------------
+    # Movie Actors
+    @app.route("/movies/<int:id>/actors", methods=["POST"])
+    @requires_auth("movies:update")
+    def add_movie_actor(jwt, id):
+        '''POST /movies/:id/actors - Add an actor to a movie'''
+        movie = Movie.query.get(id)
+        if movie is None:
+            abort(404)
+
+        data = request.get_json(force=True)
+        actor = Actor.query.get(data.get('actor', {}).get('id', 0))
+        if actor is None:
+            abort(404)
+
+        movie.actors.append(actor)
+        movie.update()
+
+        return jsonify({"movie": movie.data()})
+
+    @app.route("/movies/<int:id>/actors", methods=["DELETE"])
+    @requires_auth("movies:update")
+    def delete_movie_actor(jwt, id):
+        '''DELETE /movies/:id/actors - Remove an actor from a movie'''
+        movie = Movie.query.get(id)
+        if movie is None:
+            abort(404)
+
+        data = request.get_json(force=True)
+        actor = Actor.query.get(data.get('actor', {}).get('id', 0))
+        if actor is None:
+            abort(404)
+
+        movie.actors.remove(actor)
+        movie.update()
+
+        return jsonify({"movie": movie.data()})
+
+    # ------------------------------------------------------------
     # Actors
+
     @app.route("/actors", methods=["GET"])
     @requires_auth("actors:list")
     def get_actors(jwt):
-        """GET /actors - List all actors"""
+        '''GET /actors - List all actors'''
         actors = Actor.query.order_by(Actor.name).all()
         return jsonify({"actors": [a.data() for a in actors]})
 
     @app.route("/actors", methods=["POST"])
     @requires_auth("actors:create")
     def add_actor(jwt):
-        """POST /actors - Create a new actor"""
+        '''POST /actors - Create a new actor'''
         data = request.get_json(force=True)
         exists = Actor.query.filter(Actor.name == data["name"]).count()
         if exists:
@@ -104,7 +143,7 @@ def setup_routes(app):
     @app.route("/actors/<int:id>", methods=["PATCH"])
     @requires_auth("actors:update")
     def update_actor(jwt, id):
-        """PATCH /actors/:id - Update an actor"""
+        '''PATCH /actors/:id - Update an actor'''
         actor = Actor.query.get(id)
         if actor is None:
             abort(404)
@@ -119,7 +158,7 @@ def setup_routes(app):
     @app.route("/actors/<int:id>", methods=["DELETE"])
     @requires_auth("actors:delete")
     def delete_actor(jwt, id):
-        """DELETE /actors/:id - Delete an actor"""
+        '''DELETE /actors/:id - Delete an actor'''
         actor = Actor.query.get(id)
         if actor is None:
             abort(404)
