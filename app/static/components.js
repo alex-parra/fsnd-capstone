@@ -106,7 +106,7 @@ class MovieForm extends Component {
     return html`
       <h2>${createOrEdit} Movie</h2>
       <label className="formControl">
-        <strong>Movie Title:</strong>
+        <strong>Title:</strong>
         <input type="text" value="${state.title}" onInput="${ev => this.setState({ title: ev.target.value })}" placeholder="Type movie name" />
       </label>
       <label className="formControl">
@@ -172,7 +172,7 @@ class ActorForm extends Component {
     return html`
       <h2>${createOrEdit} Actor</h2>
       <label className="formControl">
-        <strong>Actor Name:</strong>
+        <strong>Name:</strong>
         <input type="text" value="${state.name}" onInput="${ev => this.setState({ name: ev.target.value })}" placeholder="Type actor name" />
       </label>
       <label className="formControl">
