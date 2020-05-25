@@ -232,7 +232,8 @@ class ActorForm extends Component {
   }
 }
 
-const MovieActorForm = ({ movie, store }) => {
+const MovieActorForm = ({ id, store }) => {
+  const movie = store.movies.find(m => m.id === id);
   const movieActorsIds = movie.actors.map(a => a.id);
   const freeActors = store.actors.filter(a => !movieActorsIds.includes(a.id));
   const selectActor = actor => store.addMovieActor(movie, actor);
