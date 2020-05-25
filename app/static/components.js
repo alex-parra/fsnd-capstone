@@ -177,7 +177,23 @@ class ActorForm extends Component {
       </label>
       <label className="formControl">
         <strong>Age:</strong>
-        <input type="number" min="0" max="150" value="${state.age}" onInput="${ev => this.setState({ age: Number(ev.target.value) })}" />
+        <input
+          type="number"
+          min="0"
+          max="120"
+          placeholder="Enter actor age"
+          value="${state.age}"
+          onInput="${ev => this.setState({ age: Number(ev.target.value) })}"
+        />
+      </label>
+      <label className="formControl">
+        <strong>Gender:</strong>
+        <select value="${state.gender}" onChange="${ev => this.setState({ gender: ev.target.value })}">
+          <option value="" disabled selected>- Select actor gender -</option>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+          <option value="X">Non-binary</option>
+        </select>
       </label>
       <div className="formActions">
         <${Btn} text="Save" onClick="${() => props.submit(state)}" />

@@ -17,7 +17,8 @@ a[href]:hover {
   cursor: pointer;
 }
 
-input {
+input,
+select {
   display: block;
   width: 100%;
   color: #1a202c;
@@ -25,6 +26,10 @@ input {
   font-size: 1rem;
   border-radius: 3px;
   border: none;
+}
+
+select {
+  padding: 0.4em;
 }
 
 label.formControl {
