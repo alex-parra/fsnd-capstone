@@ -71,6 +71,7 @@ const MoviesList = ({ store }) => {
         ${store.can('movies:create') && html`<${Btn} class="icon" text="+" onClick="${() => store.modalOn('addMovie')}" />`}
       </h2>
       <ol>
+        ${movies.length === 0 && html`<li class="none">No movies yet</li>`}
         ${movies.map(
           movie => html`<li onClick="${() => store.modalOn('viewMovie', movie)}">
             <h3>${movie.title}</h3>
@@ -154,6 +155,7 @@ const ActorsList = ({ store }) => {
         ${store.can('actors:create') && html`<${Btn} class="icon" text="+" onClick="${() => store.modalOn('addActor')}" />`}
       </h2>
       <ol>
+        ${actors.length === 0 && html`<li class="none">No actors yet</li>`}
         ${actors.map(
           actor => html`<li onClick="${() => store.modalOn('viewActor', actor)}">
             <h3>${actor.name}</h3>
