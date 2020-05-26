@@ -12,7 +12,7 @@ db = SQLAlchemy()
 
 
 def setup_db(app, database_path=DB_URL):
-    """binds a flask application and a SQLAlchemy service"""
+    '''binds a flask application and a SQLAlchemy service'''
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
@@ -29,7 +29,7 @@ movie_actors = Table('movie_actors', db.Model.metadata,
 
 
 class Movie(db.Model):
-    """
+    '''
     Movie Model
         Attributes:
         - title: string
@@ -40,7 +40,7 @@ class Movie(db.Model):
         - insert
         - update
         - delete
-    """
+    '''
 
     __tablename__ = "movies"
 
@@ -74,7 +74,7 @@ class Movie(db.Model):
 
 
 class Actor(db.Model):
-    """
+    '''
     Actor Model
         Attributes:
         - name: string
@@ -86,7 +86,7 @@ class Actor(db.Model):
         - insert
         - update
         - delete
-    """
+    '''
 
     __tablename__ = "actors"
 

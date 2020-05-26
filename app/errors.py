@@ -4,9 +4,9 @@ import jsonschema
 
 
 def setup_errors(app):
-    """
+    '''
     Apply error handlers to app
-    """
+    '''
 
     # Handle 400 Bad Request
     @app.errorhandler(400)
@@ -31,7 +31,7 @@ def setup_errors(app):
     def handle_auth_error(error):
         code = error.status_code
         msg = error.error
-        return jsonify({"success": False, "error": code, "msg": msg}), code
+        return jsonify({"success": False, "error": code, "message": msg}), code
 
     # Handle 404 Not Found
     @app.errorhandler(404)
