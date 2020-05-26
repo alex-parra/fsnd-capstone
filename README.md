@@ -1,5 +1,9 @@
 # Udacity Fullstack Nanodegree Capstone
 
+Final project for the Udacity Fullstack Nanodegree.
+
+> The Casting Agency models a company that is responsible for creating movies and managing and assigning actors to those movies. You are an Executive Producer within the company and are creating a system to simplify and streamline your process.
+
 Preview at https://alexparra-fsnd-capstone.herokuapp.com/
 
 ## Users
@@ -25,8 +29,10 @@ FSNDCapstone1q2w3e
 6. Upgrade DB: `flask db upgrade`
 7. Run dev mode: `sh ./boot.sh dev`
 8. Open http://localhost:8000/
+9. Run tests: `sh boot.sh test`
 
-## Endpoints
+## Endpoints
+
 `GET /`
 
 - Returns app scafold html

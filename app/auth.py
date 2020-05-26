@@ -5,9 +5,10 @@ from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 import re
-from .config import BASE_URL, AUTH_DOMAIN, AUTH_CLIENT_ID, AUTH_AUDIENCE
+from .config import BASE_URL, AUTH_DOMAIN, AUTH_CLIENT_ID, AUTH_AUDIENCE, TESTING_JWT_KEY
 
 AUTH_ALGOS = ["RS256"]
+IS_TESTING = os.environ.get('FLASK_ENV') == 'testing'
 
 
 def login_url():
@@ -28,9 +29,9 @@ def logout_url():
 
 
 class AuthError(Exception):
-    """
+    '''
     Standardized way to communicate auth failure modes
-    """
+    '''
 
     def __init__(self, error, status_code):
         self.error = error
@@ -38,9 +39,9 @@ class AuthError(Exception):
 
 
 def get_token_auth_header():
-    """
+    '''
     Get JWT token from header
-    """
+    '''
     authHeader = request.headers.get("Authorization", None)
     if authHeader is None:
         raise AuthError("Invalid auth header", 401)
@@ -53,12 +54,12 @@ def get_token_auth_header():
 
 
 def check_permissions(permission, payload):
-    """
+    '''
     Ensure user has permission
     @INPUTS
         permission: string permission (i.e. 'method:entity')
         payload: decoded jwt payload
-    """
+    '''
     if "permissions" not in payload:
         raise AuthError("Permissions not included in JWT", 400)
 
@@ -69,11 +70,15 @@ def check_permissions(permission, payload):
 
 
 def verify_decode_jwt(token):
-    """
+    '''
     Get JWT payload
     @INPUTS
         token: a json web token (string)
-    """
+    '''
+
+    if IS_TESTING:
+        return jwt.decode(token, TESTING_JWT_KEY)
+
     jsonurl = urlopen(f"https://{AUTH_DOMAIN}/.well-known/jwks.json")
     jwks = json.loads(jsonurl.read())
     unverified_header = jwt.get_unverified_header(token)
@@ -115,11 +120,11 @@ def get_permissions():
 
 
 def requires_auth(permission=""):
-    """
+    '''
     Auth decorator
     @INPUTS
         permission: string permission (i.e. 'method:entity')
-    """
+    '''
 
     def requires_auth_decorator(f):
         @wraps(f)

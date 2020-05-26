@@ -7,7 +7,7 @@
         "minLength": 10
       },
       "age": {
-        "type": "number",
+        "type": "number"
       },
       "gender": {
         "type": "string"

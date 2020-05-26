@@ -79,7 +79,7 @@ def setup_routes(app):
             abort(404)
 
         movie.delete()
-        return jsonify({"deleted": movie.data()}), 204
+        return jsonify({"deleted": movie.data()})
 
     # ------------------------------------------------------------
     # Movie Actors
@@ -168,4 +168,4 @@ def setup_routes(app):
             abort(404)
 
         actor.delete()
-        return jsonify({"deleted": actor.data()}), 204
+        return jsonify({"deleted": actor.data()})
