@@ -8,11 +8,11 @@ Preview at https://alexparra-fsnd-capstone.herokuapp.com/
 
 ## Users
 
-- Executive Producer: `executive.producer@fsnd-capstone.alex-parra.com`
+- Executive Producer: `executive.producer@fsnd-capstone.alex-parra.com`  
   Permissions: actors:list, actors:create, actors:update, actors:delete, movies:list, movies:create, movies:update, movies:delete
-- Casting Director: `casting.director@fsnd-capstone.alex-parra.com`
+- Casting Director: `casting.director@fsnd-capstone.alex-parra.com`  
   Permissions: actors:list, actors:create, actors:update, actors:delete, movies:list, movies:update
-- Casting Assistant: `casting.assistant@fsnd-capstone.alex-parra.com`
+- Casting Assistant: `casting.assistant@fsnd-capstone.alex-parra.com`  
   Permissions: actors:list, movies:list
 
 ```
@@ -122,17 +122,16 @@ FSNDCapstone1q2w3e
 7. Install psycopg2: `python -m pip install psycopg2-binary`
 8. Install Flask-Migrate: `python -m pip install Flask-Migrate`
 9. Install Flask-CORS: `python -m pip install flask-cors`
-10. Install Flask-JSONSchema: `python -m pip install flask-jsonschema-validator`
-11. Install Pythonenv: `python -m pip install python-dotenv`
-12. Install Python Jose: `python -m pip install python-jose-cryptodome`
-13. Requirements.txt: `python -m pip freeze > requirements.txt`
-14. Add .flaskenv with `FLASK_APP`, `FLASK_RUN_HOST`, `FLASK_RUN_PORT`
-15. Start DB: `docker-compose up` or `sh boot.sh db-up`
-16. Init Migrations: `flask db init`
-17. Create Migrations: `flask db migrate`
-18. Upgrade DB: `flask db upgrade`
+10. Install Pythonenv: `python -m pip install python-dotenv`
+11. Install Python Jose: `python -m pip install python-jose-cryptodome`
+12. Requirements.txt: `python -m pip freeze > requirements.txt`
+13. Add .flaskenv with `FLASK_APP`, `FLASK_RUN_HOST`, `FLASK_RUN_PORT`
+14. Start DB: `docker-compose up` or `sh boot.sh db-up`
+15. Init Migrations: `flask db init`
+16. Create Migrations: `flask db migrate`
+17. Upgrade DB: `flask db upgrade`
     Downgrade DB: `flask db downgrade`
-19. Run dev mode: `sh ./boot.sh dev`
+18. Run dev mode: `sh ./boot.sh dev`
 
 ## Setup Heroku
 

@@ -43,7 +43,6 @@ def setup_routes(app):
 
     @app.route("/movies", methods=["POST"])
     @requires_auth("movies:create")
-    @app.validate('movie', 'create')
     def add_movie(jwt):
         '''POST /movies - Create new movie'''
         data = request.get_json(force=True)
@@ -57,7 +56,6 @@ def setup_routes(app):
 
     @app.route("/movies/<int:id>", methods=["PATCH"])
     @requires_auth("movies:update")
-    @app.validate('movie', 'update')
     def update_movie(jwt, id):
         '''PATCH /movies/:id - Update a movie'''
         movie = Movie.query.get(id)
@@ -131,7 +129,6 @@ def setup_routes(app):
 
     @app.route("/actors", methods=["POST"])
     @requires_auth("actors:create")
-    @app.validate('actor', 'create')
     def add_actor(jwt):
         '''POST /actors - Create a new actor'''
         data = request.get_json(force=True)
@@ -145,7 +142,6 @@ def setup_routes(app):
 
     @app.route("/actors/<int:id>", methods=["PATCH"])
     @requires_auth("actors:update")
-    @app.validate('actor', 'create')
     def update_actor(jwt, id):
         '''PATCH /actors/:id - Update an actor'''
         actor = Actor.query.get(id)
